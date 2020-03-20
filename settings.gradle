@@ -1,0 +1,4 @@
+rootProject.name='Chaos'
+include ':app'
+include ':chaostask'
+include ':chaos'
