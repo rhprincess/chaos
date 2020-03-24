@@ -1,5 +1,6 @@
 package io.rhprincess.chaos.factory
 
+import android.content.Context
 import android.content.res.TypedArray
 import android.content.res.XmlResourceParser
 import android.graphics.Typeface
@@ -74,72 +75,63 @@ val Int.rMipMap: Drawable
 // ------------------------------------------------------------------------------------------ //
 
 /* Add TypedArray Support */
-val Int.rAttr: TypedArray
-    get() {
-        return ChaosProvider.context.obtainStyledAttributes(intArrayOf(this))
-    }
+fun Int.rAttr(ctx: Context): TypedArray {
+    return ctx.obtainStyledAttributes(intArrayOf(this))
+}
 
-val Int.rDrawableAttr: Drawable?
-    get() {
-        val attr = this.rAttr
-        val drawable = attr.getDrawable(0)
-        attr.recycle()
-        return drawable
-    }
+fun Int.rDrawableAttr(ctx: Context): Drawable? {
+    val attr = this.rAttr(ctx)
+    val drawable = attr.getDrawable(0)
+    attr.recycle()
+    return drawable
+}
 
-val Int.rColorAttr: Int
-    get() {
-        val attr = this.rAttr
-        val color = attr.getColor(0, 0)
-        attr.recycle()
-        return color
-    }
+fun Int.rColorAttr(ctx: Context): Int {
+    val attr = this.rAttr(ctx)
+    val color = attr.getColor(0, 0)
+    attr.recycle()
+    return color
+}
 
-val Int.rStringAttr: String?
-    get() {
-        val attr = this.rAttr
-        val str = attr.getString(0)
-        attr.recycle()
-        return str
-    }
+fun Int.rStringAttr(ctx: Context): String? {
+    val attr = this.rAttr(ctx)
+    val str = attr.getString(0)
+    attr.recycle()
+    return str
+}
 
-val Int.rBooleanAttr: Boolean
-    get() {
-        val attr = this.rAttr
-        val bool = attr.getBoolean(0, false)
-        attr.recycle()
-        return bool
-    }
+fun Int.rBooleanAttr(ctx: Context): Boolean {
+    val attr = this.rAttr(ctx)
+    val bool = attr.getBoolean(0, false)
+    attr.recycle()
+    return bool
+}
 
-val Int.rDimensionAttr: Float
-    get() {
-        val attr = this.rAttr
-        val dimension = attr.getDimension(0, 0f)
-        attr.recycle()
-        return dimension
-    }
+fun Int.rDimensionAttr(ctx: Context): Float {
+    val attr = this.rAttr(ctx)
+    val dimension = attr.getDimension(0, 0f)
+    attr.recycle()
+    return dimension
+}
 
-val Int.rFontAttr: Typeface?
-    @RequiresApi(Build.VERSION_CODES.O)
-    get() {
-        val attr = this.rAttr
-        val font = attr.getFont(0)
-        attr.recycle()
-        return font
-    }
+@RequiresApi(Build.VERSION_CODES.O)
+fun Int.rFontAttr(ctx: Context): Typeface? {
+    val attr = this.rAttr(ctx)
+    val font = attr.getFont(0)
+    attr.recycle()
+    return font
+}
 
-val Int.rFloatAttr: Float
-    get() {
-        val attr = this.rAttr
-        val float = attr.getFloat(0, 0f)
-        attr.recycle()
-        return float
-    }
+fun Int.rFloatAttr(ctx: Context): Float {
+    val attr = this.rAttr(ctx)
+    val float = attr.getFloat(0, 0f)
+    attr.recycle()
+    return float
+}
 
-val Int.rIntegerAttr: Int
-    get() {
-        val attr = this.rAttr
-        val integer = attr.getInt(0, 0)
-        attr.recycle()
-        return integer
-    }
+fun Int.rIntegerAttr(ctx: Context): Int {
+    val attr = this.rAttr(ctx)
+    val integer = attr.getInt(0, 0)
+    attr.recycle()
+    return integer
+}
