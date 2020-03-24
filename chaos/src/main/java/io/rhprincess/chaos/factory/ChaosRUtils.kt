@@ -1,10 +1,10 @@
 package io.rhprincess.chaos.factory
 
+import android.content.res.TypedArray
 import android.content.res.XmlResourceParser
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -73,111 +73,33 @@ val Int.rMipMap: Drawable
 
 // ------------------------------------------------------------------------------------------ //
 
-/* Add TypedValue */
-val Int.rAttr: TypedValue
+/* Add TypedArray Support */
+val Int.rAttr: TypedArray
     get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue
+        return ChaosProvider.context.obtainStyledAttributes(intArrayOf(this))
     }
 
-val Int.rDrawableAttr: Drawable
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rDrawable
-    }
+val Int.rDrawableAttr: Drawable?
+    get() = this.rAttr.getDrawable(0)
 
-@Deprecated("", ReplaceWith("rColorAttr2"))
 val Int.rColorAttr: Int
-    @RequiresApi(Build.VERSION_CODES.M)
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rColor
-    }
+    get() = this.rAttr.getColor(0, 0)
 
-val Int.rColorAttr2: Int
-    @RequiresApi(Build.VERSION_CODES.M)
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rColor2
-    }
-
-val Int.rStringAttr: String
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rString
-    }
-
-val Int.rLayoutAttr: View
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rLayout
-    }
+val Int.rStringAttr: String?
+    get() = this.rAttr.getString(0)
 
 val Int.rBooleanAttr: Boolean
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rBoolean
-    }
+    get() = this.rAttr.getBoolean(0, false)
 
 val Int.rDimensionAttr: Float
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rDimension
-    }
+    get() = this.rAttr.getDimension(0, 0f)
 
-val Int.rFontAttr: Typeface
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rFont
-    }
+val Int.rFontAttr: Typeface?
+    @RequiresApi(Build.VERSION_CODES.O)
+    get() = this.rAttr.getFont(0)
 
 val Int.rFloatAttr: Float
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rFloat
-    }
-
-val Int.rIntArrAttr: IntArray
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rIntArr
-    }
+    get() = this.rAttr.getFloat(0, 0f)
 
 val Int.rIntegerAttr: Int
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rInteger
-    }
-
-val Int.rXmlAttr: XmlResourceParser
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rXml
-    }
-
-val Int.rRawAttr: InputStream
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rRaw
-    }
-
-val Int.rMipMapAttr: Drawable
-    get() {
-        val typedValue = TypedValue()
-        ChaosProvider.context.theme.resolveAttribute(this, typedValue, true)
-        return typedValue.resourceId.rMipMap
-    }
+    get() = this.rAttr.getInt(0, 0)
