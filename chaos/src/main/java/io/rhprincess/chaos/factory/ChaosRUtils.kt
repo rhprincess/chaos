@@ -80,26 +80,66 @@ val Int.rAttr: TypedArray
     }
 
 val Int.rDrawableAttr: Drawable?
-    get() = this.rAttr.getDrawable(0)
+    get() {
+        val attr = this.rAttr
+        val drawable = attr.getDrawable(0)
+        attr.recycle()
+        return drawable
+    }
 
 val Int.rColorAttr: Int
-    get() = this.rAttr.getColor(0, 0)
+    get() {
+        val attr = this.rAttr
+        val color = attr.getColor(0, 0)
+        attr.recycle()
+        return color
+    }
 
 val Int.rStringAttr: String?
-    get() = this.rAttr.getString(0)
+    get() {
+        val attr = this.rAttr
+        val str = attr.getString(0)
+        attr.recycle()
+        return str
+    }
 
 val Int.rBooleanAttr: Boolean
-    get() = this.rAttr.getBoolean(0, false)
+    get() {
+        val attr = this.rAttr
+        val bool = attr.getBoolean(0, false)
+        attr.recycle()
+        return bool
+    }
 
 val Int.rDimensionAttr: Float
-    get() = this.rAttr.getDimension(0, 0f)
+    get() {
+        val attr = this.rAttr
+        val dimension = attr.getDimension(0, 0f)
+        attr.recycle()
+        return dimension
+    }
 
 val Int.rFontAttr: Typeface?
     @RequiresApi(Build.VERSION_CODES.O)
-    get() = this.rAttr.getFont(0)
+    get() {
+        val attr = this.rAttr
+        val font = attr.getFont(0)
+        attr.recycle()
+        return font
+    }
 
 val Int.rFloatAttr: Float
-    get() = this.rAttr.getFloat(0, 0f)
+    get() {
+        val attr = this.rAttr
+        val float = attr.getFloat(0, 0f)
+        attr.recycle()
+        return float
+    }
 
 val Int.rIntegerAttr: Int
-    get() = this.rAttr.getInt(0, 0)
+    get() {
+        val attr = this.rAttr
+        val integer = attr.getInt(0, 0)
+        attr.recycle()
+        return integer
+    }
