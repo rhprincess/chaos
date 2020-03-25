@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/rhprincess/Chaos.svg)](https://jitpack.io/#rhprincess/Chaos)
+[![](https://jitpack.io/v/rhprincess/chaos.svg)](https://jitpack.io/#rhprincess/chaos)
 
 # Chaos
 Chaos UI (
