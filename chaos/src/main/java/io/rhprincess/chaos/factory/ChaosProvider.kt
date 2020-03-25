@@ -7,6 +7,10 @@ import android.database.Cursor
 import android.net.Uri
 import io.rhprincess.chaos.main.ChaosException
 
+/**
+ * 这是一个全局上下文提供器，提供的是Application的上下文
+ * 详情请看： [无侵入式Context][https://www.jianshu.com/p/6f6d1352fb43]
+ */
 class ChaosProvider : ContentProvider() {
 
     companion object {

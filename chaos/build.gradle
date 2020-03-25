@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.jetbrains.dokka'
 
 /**
  *
@@ -16,8 +17,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1001
-        versionName "1.0.0.1"
+        versionCode 1002
+        versionName "1.0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -27,6 +28,22 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/dokka"
+        configuration {
+            // Do not output deprecated members
+            skipDeprecated = false
+            // Emit warnings about not documented members.
+            reportUndocumented = true
+            // Do not create index pages for empty packages
+            skipEmptyPackages = true
+            noJdkLink = true
+            noStdlibLink = true
+            noAndroidSdkLink = true
         }
     }
 

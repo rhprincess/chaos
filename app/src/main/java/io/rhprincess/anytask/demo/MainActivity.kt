@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import io.rhprincess.chaos.factory.rDimensionAttr
 import io.rhprincess.chaos.main.*
 import io.rhprincess.chaos.main.widgets.layout
 import io.rhprincess.chaos.main.widgets.textView
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         layout<DrawerLayout> {
             // content
             verticalLayout {
+                R.attr.actionBarSize.rDimensionAttr(context)
                 gravity = Gravity.CENTER
                 layoutParams = DrawerLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
                     gravity = Gravity.NO_GRAVITY

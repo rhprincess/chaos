@@ -10,12 +10,11 @@ import java.lang.reflect.Constructor
 
 /**
  *
- *     Attention:
- *     LazyViewInjector did not support some function in AnyUI.
- *     such as 'include', styled layout, etc.
+ *     注意:
+ *     懒加载注入器并不支持使用include等动态注入的方法，以及样式化的布局也并不支持
+ *     未来可能会对include以及样式化布局做出相关适配，但目前并不支持
  *
  */
-
 @Suppress("MemberVisibilityCanBePrivate")
 class LazyViewInjector {
 
@@ -37,6 +36,9 @@ class LazyViewInjector {
         replacePosition = targetParent.childCount // Get holder's position in target parent.
     }
 
+    /**
+     * 将布局注入，并回收实例
+     */
     fun inject() {
         if (isInjected) throw RuntimeException("Stub! Lazy init block cannot be injected twice.")
         if (factory != null) {
@@ -96,6 +98,9 @@ class LazyViewFactory {
     fun fetch(): ArrayList<LazyBlock<*>> = lazyViews
 }
 
+/**
+ * 用该方法可以声明懒加载布局，使用该方法并不会造成嵌套，而是会注入到指定的位置
+ */
 fun ViewGroup.lazyInject(init: LazyViewFactory.() -> Unit): LazyViewInjector {
     val factory = LazyViewFactory()
     factory.init()
@@ -104,6 +109,9 @@ fun ViewGroup.lazyInject(init: LazyViewFactory.() -> Unit): LazyViewInjector {
     return injector
 }
 
+/**
+ * 懒加载Xml文件
+ */
 fun ViewGroup.lazyInject(@LayoutRes layout: Int): LazyViewInjector {
     return LazyViewInjector(this, layout)
 }
