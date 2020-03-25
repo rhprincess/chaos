@@ -23,6 +23,6 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-        implementation 'com.github.rhprincess:Chaos:Tag'
+        implementation 'com.github.rhprincess:chaos:$latest'
 }
 ```
