@@ -3,15 +3,13 @@ package io.rhprincess.chaos.main
 import android.view.View
 import io.rhprincess.chaos.factory.ChaosIdName
 import io.rhprincess.chaos.factory.ChaosIdValue
+import io.rhprincess.chaos.factory.ChaosProvider
 
 /**
  * 该类用于代理控件的ID，本质上是一个全局静态托管
  */
 @Suppress("MemberVisibilityCanBePrivate")
 object ChaosId {
-    private val idMap = HashMap<String, Int>()
-    private val idMapReflect = HashMap<Int, String>()
-    private var initialIdValue = 0x01000000
 
     /**
      * 该方法用于将ID与一个指定字符串名进行绑定
@@ -20,10 +18,12 @@ object ChaosId {
      * @return 返回绑定后的ID值
      */
     fun bind(idName: String, realId: Int): Int {
-        if (idMapReflect[realId] != null) throw ChaosException.DuplicatedIdValueFailure("$realId")
-        if (idMap[idName] != null) throw ChaosException.DuplicatedIdNameFailure(idName)
-        idMap[idName] = realId
-        idMapReflect[realId] = idName
+        if (ChaosProvider.idMapReflect[realId] != null) throw ChaosException.DuplicatedIdValueFailure(
+            "$realId"
+        )
+        if (ChaosProvider.idMap[idName] != null) throw ChaosException.DuplicatedIdNameFailure(idName)
+        ChaosProvider.idMap[idName] = realId
+        ChaosProvider.idMapReflect[realId] = idName
         return realId
     }
 
@@ -44,14 +44,14 @@ object ChaosId {
      * @see extract 方法的基方法
      */
     fun pick(idName: String): Int {
-        return idMap[idName] ?: throw ChaosException.IdNotFound(idName)
+        return ChaosProvider.idMap[idName] ?: throw ChaosException.IdNotFound(idName)
     }
 
     /**
      * 判断ID名称是否已经存在
      */
     fun isExists(idName: String): Boolean {
-        return idMap[idName] != null
+        return ChaosProvider.idMap[idName] != null
     }
 
     fun get(idName: String): Int {
@@ -66,8 +66,8 @@ object ChaosId {
      * 让全局ID做出改变
      */
     fun callIdChanged(): Int {
-        initialIdValue++
-        return initialIdValue
+        ChaosProvider.initialIdValue++
+        return ChaosProvider.initialIdValue
     }
 }
 

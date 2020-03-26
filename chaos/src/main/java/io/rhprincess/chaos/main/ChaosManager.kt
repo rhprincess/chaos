@@ -18,6 +18,33 @@ import androidx.core.view.ViewCompat
 import io.rhprincess.chaos.factory.ChaosProvider
 import kotlin.math.roundToInt
 
+/**
+ * 利用该方法，您可以轻松地引用第三方控件而不需要去自定义
+ *
+ * 例：
+ * widget<MaterialButton> {
+ *      ...
+ * }
+ *
+ * @param theme 主题
+ * @param styledLayout 样式化的布局文件
+ *
+ * 样式化布局例：
+ *
+ * 文件: R.layout.material_outline_button
+ *
+ * <?xml version="1.0" encoding="utf-8"?>
+ *     <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+ *     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+ *     android:layout_width="wrap_content"
+ *     android:layout_height="wrap_content" />
+ *
+ * 使用方法:
+ *
+ * widget<MaterialButton>(styledLayout = R.layout.material_outline_button) {
+ *      ...
+ * }
+ */
 inline fun <reified T : View> ViewManager.widget(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -43,6 +70,21 @@ inline fun <reified T : View> ViewManager.widget(
     return instance
 }
 
+/**
+ * 使用该方法，你可以随意引入一个已定义但未实例化的ChaosManager
+ *
+ * 定义ChaosUI:
+ *
+ * 注意，这里的autoAttach必须为false
+ * val content = UI(autoAttach = false) {
+ *      ...
+ * }
+ *
+ * 引入使用
+ * verticalLayout {
+ *      include(content)
+ * }
+ */
 fun ViewManager.include(managerBlock: ChaosManager) {
     this.addView(
         managerBlock.view,
@@ -50,12 +92,27 @@ fun ViewManager.include(managerBlock: ChaosManager) {
     )
 }
 
+/**
+ * 使用该方法引入一个布局文件
+ */
 fun ViewManager.include(@LayoutRes layout: Int, width: Int = -2, height: Int = -2): View {
     val child = LayoutInflater.from(internalContext).inflate(layout, null)
     this.addView(child, ViewGroup.LayoutParams(width, height))
     return child
 }
 
+/**
+ * 使用该方法引入布局文件
+ *
+ * verticalLayout {
+ *      include {
+ *          layout = R.layout.xxx
+ *          padding = xxx
+ *          margin = xxx
+ *          ...
+ *      }
+ * }
+ */
 inline fun <reified T : ViewGroup> ViewManager.include(init: IncludeParams.() -> Unit): View {
     val wrapper = IncludeParams(this)
     wrapper.init()
@@ -89,6 +146,9 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
     var padding: Int = 0
         set(value) = padding(value)
 
+    /**
+     * 引入布局文件的Resourse ID
+     */
     @LayoutRes
     var layout: Int = 0
         set(value) {
@@ -97,6 +157,16 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
             manager.addView(view, view!!.layoutParams ?: ViewGroup.LayoutParams(-2, -2))
         }
 
+    /**
+     * 设置padding
+     *
+     * padding {
+     *      left = xxx
+     *      top = xxx
+     *      right = xxx
+     *      bottom = xxx
+     * }
+     */
     fun padding(init: Padding.() -> Unit) {
         if (view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
         val wrap = Padding()
@@ -104,11 +174,24 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
         view!!.setPadding(wrap.left, wrap.top, wrap.right, wrap.bottom)
     }
 
+    /**
+     * 统一设置left, top, right, bottom的padding值
+     */
     fun padding(size: Int) {
         if (view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
         view!!.setPadding(size, size, size, size)
     }
 
+    /**
+     * 设置margin外边距
+     *
+     * margin {
+     *      left = xxx
+     *      top = xxx
+     *      right = xxx
+     *      bottom = xxx
+     * }
+     */
     fun margin(init: Margin.() -> Unit) {
         if (view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
         val wrap = Margin()
@@ -126,6 +209,9 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
         })
     }
 
+    /**
+     * 统一设置left, top, right, bottom的margin值
+     */
     fun margin(size: Int) {
         if (view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
         view!!.viewTreeObserver.addOnGlobalLayoutListener(object :
@@ -141,6 +227,12 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
         })
     }
 
+    /**
+     * 绑定布局文件中的控件
+     * bindView<Button>(R.id.btn) {
+     *      ...
+     * }
+     */
     inline fun <T : View> bindView(@IdRes id: Int, block: T.() -> Unit): T {
         if (view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
         return view!!.findViewById<T>(id).apply(block)
@@ -367,16 +459,39 @@ open class LParams(
 class Padding : Box()
 class Margin : Box()
 
+/**
+ * 设置padding内边距
+ *
+ * padding {
+ *      left = xxx
+ *      top = xxx
+ *      right = xxx
+ *      bottom = xxx
+ * }
+ */
 fun View.padding(init: Padding.() -> Unit) {
     val wrap = Padding()
     wrap.init()
     this.setPadding(wrap.left, wrap.top, wrap.right, wrap.bottom)
 }
 
+/**
+ * 统一设置left, top, right, bottom的padding值
+ */
 fun View.padding(size: Int) {
     this.setPadding(size, size, size, size)
 }
 
+/**
+ * 设置margin外边距
+ *
+ * margin {
+ *      left = xxx
+ *      top = xxx
+ *      right = xxx
+ *      bottom = xxx
+ * }
+ */
 fun View.margin(init: Margin.() -> Unit) {
     val wrap = Margin()
     wrap.init()
@@ -393,6 +508,9 @@ fun View.margin(init: Margin.() -> Unit) {
     })
 }
 
+/**
+ * 统一设置left, top, right, bottom的margin值
+ */
 fun View.margin(size: Int) {
     this.viewTreeObserver.addOnGlobalLayoutListener(object :
         ViewTreeObserver.OnGlobalLayoutListener {
@@ -466,6 +584,33 @@ object LayoutParamsTool {
     }
 }
 
+/**
+ * 设置控件的LayoutParams，T为父控件类型
+ *
+ * lparams<LinearLayout> {
+ *      width = xxx
+ *      height = xxx
+ *      layoutGravity = Gravity.NO_GRAVITY
+ *      layoutWeight = 0f
+ * }
+ *
+ *
+ * lparams<FrameLayout> {
+ *      width = xxx
+ *      height = xxx
+ *      layoutGravity = Gravity.NO_GRAVITY
+ * }
+ *
+ *
+ * lparams<RelativeLayout> {
+ *      width = xxx
+ *      height = xxx
+ *      centerInParent = true
+ *      alignParentBottom = true
+ *      above = xxx
+ *      below = xxx
+ * }
+ */
 inline fun <reified T : ViewGroup> View.lparams(init: LParams.() -> Unit) {
     val wrap = LParams()
     wrap.init()
@@ -476,6 +621,16 @@ inline fun <reified T : ViewGroup> View.lparams(init: LParams.() -> Unit) {
     )
 }
 
+/**
+ * 该方法仅支持设置width和height
+ *
+ * lparams {
+ *      width = xxx
+ *      height = xxx
+ * }
+ *
+ * @see size
+ */
 fun View.lparams(init: Size.() -> Unit): ViewGroup.LayoutParams {
     val wrap = Size()
     wrap.init()
@@ -483,6 +638,16 @@ fun View.lparams(init: Size.() -> Unit): ViewGroup.LayoutParams {
     return this.layoutParams
 }
 
+/**
+ * 该方法仅支持设置width和height
+ *
+ * size {
+ *      width = xxx
+ *      height = xxx
+ * }
+ *
+ * @see lparams
+ */
 fun View.size(init: Size.() -> Unit) {
     val wrap = Size()
     wrap.init()
@@ -496,17 +661,30 @@ fun View.size(init: Size.() -> Unit) {
     }
 }
 
+/**
+ * 对View添加margin属性的支持
+ */
 var View.margin: Int
     get() = 0
     set(value) = this.margin(value)
+
+/**
+ * 对View添加padding属性的支持
+ */
 var View.padding: Int
     get() = 0
     set(value) = this.padding(value)
 
+/**
+ * 对View添加backgroundColor属性的支持
+ */
 var View.backgroundColor: Int
     get() = 0
     set(value) = this.setBackgroundColor(value)
 
+/**
+ * 对View添加textColor属性的支持
+ */
 var TextView.textColor: Int
     get() = this.currentTextColor
     set(value) = this.setTextColor(value)
@@ -538,16 +716,38 @@ val Int.px2sp: Int
 val Float.px2sp: Float
     get() = this / ChaosProvider.context.resources.displayMetrics.scaledDensity + 0.5f
 
+/**
+ * 将字符串转为颜色值
+ *
+ * 例：
+ *
+ * "#000000".color
+ */
 val String.color: Int
     get() = Color.parseColor(this)
 
+/**
+ * 将字符串转为ColorStateList
+ *
+ * 例：
+ *
+ * "#000000".colorStateList
+ */
 val String.colorStateList: ColorStateList
     get() = ColorStateList.valueOf(Color.parseColor(this))
 
+/**
+ * 将字符串用Toast方式输出
+ */
 fun String.toast() {
     Toast.makeText(ChaosProvider.context, this, Toast.LENGTH_SHORT).show()
 }
 
+/**
+ * 简易toast
+ * @param msg 消息
+ * @param duration 时长
+ */
 fun toast(msg: String, duration: Int) {
     Toast.makeText(ChaosProvider.context, msg, duration).show()
 }
@@ -559,6 +759,9 @@ class ChaosManager(
 ) {
     val view: View = wrappedParent
 
+    /**
+     * 将ChaosUI应用到Activity当中
+     */
     fun apply(@StyleRes theme: Int = 0): ChaosManager {
         // if our root view is a window's container, then we don't need to use setContentView method.
         // because it will dynamically add to our window's container.
@@ -573,22 +776,36 @@ class ChaosManager(
         return this
     }
 
-    // continue adding view to our ChaosManager
+    /**
+     * 继续编写布局
+     */
     inline fun <reified Parent : ViewGroup> carryOn(init: Parent.() -> Unit): ChaosManager {
         (view as Parent).init()
         return this
     }
 
+    /**
+     * 移除某一个View
+     */
     fun removeView(child: View) {
         (view as ViewGroup).removeView(child)
     }
 
+    /**
+     * 移除某个位置的View
+     */
     fun removeViewAt(index: Int) {
         (view as ViewGroup).removeViewAt(index)
     }
 
+    /**
+     * 清理所有View
+     */
     fun clear() = (view as ViewGroup).removeAllViews()
 
+    /**
+     * 将布局转为Bitmap位图
+     */
     fun bitmap(config: Bitmap.Config = Bitmap.Config.ARGB_8888): Bitmap {
         if (!ViewCompat.isLaidOut(view)) {
             throw IllegalStateException("View needs to be laid out before calling bitmap()")

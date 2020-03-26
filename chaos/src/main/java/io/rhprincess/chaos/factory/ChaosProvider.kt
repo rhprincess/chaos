@@ -16,6 +16,9 @@ class ChaosProvider : ContentProvider() {
     companion object {
         lateinit var context: Context
         private var isInitialized = false
+        val idMap = HashMap<String, Int>()
+        val idMapReflect = HashMap<Int, String>()
+        var initialIdValue = 0x01000000
     }
 
     override fun onCreate(): Boolean {
