@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/rhprincess/Chaos.svg)](https://jitpack.io/#rhprincess/Chaos)
+[![](https://jitpack.io/v/rhprincess/chaos.svg)](https://jitpack.io/#rhprincess/chaos)
 
 # Chaos
 Chaos UI (
@@ -23,6 +23,6 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-        implementation 'com.github.rhprincess:Chaos:Tag'
+        implementation 'com.github.rhprincess:chaos:$latest'
 }
 ```
