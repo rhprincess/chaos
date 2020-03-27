@@ -41,7 +41,6 @@ class ChaosUI : FrameLayout {
 
     private fun initial(context: Context, attrs: AttributeSet) {
         val array = context.obtainStyledAttributes(attrs, R.styleable.ChaosUI)
-        val merge = array.getBoolean(R.styleable.ChaosUI_merge, false)
         val componentClassStr = array.getString(R.styleable.ChaosUI_component)
         val component = if (componentClassStr != null && componentClassStr.isNotEmpty()) {
             Class.forName(componentClassStr).newInstance() as IComponent
