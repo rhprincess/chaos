@@ -17,4 +17,6 @@ object ChaosException {
 
     class ConstructorNotFound(clazzName: String) :
         Exception("Cannot found constructor for $clazzName")
+
+    class ComponentNotFound(msg: String) : Exception(msg)
 }
