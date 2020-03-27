@@ -6,7 +6,7 @@ import io.rhprincess.chaos.factory.ChaosIdValue
 import io.rhprincess.chaos.factory.ChaosProvider
 
 /**
- * 该类用于代理控件的ID，本质上是一个全局静态托管
+ * 该类用于代理控件的ID，本质上是一个全局静态托管，由ChaosProvider提供实现
  */
 @Suppress("MemberVisibilityCanBePrivate")
 object ChaosId {
