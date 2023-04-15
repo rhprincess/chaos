@@ -1,10 +1,7 @@
 [![](https://jitpack.io/v/rhprincess/chaos.svg)](https://jitpack.io/#rhprincess/chaos)
 
 # Chaos
-Chaos UI (
-	still here and never
-	been deprecated
-)
+Chaos UI: a new way to layout your user interface like what jetpack compose do, and it has mutiple functions.
 Chaos Tasks
 
 the docs will coming soon.
