@@ -23,6 +23,8 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-        implementation 'com.github.rhprincess:chaos:$latest'
+        implementation 'com.github.rhprincess.chaos:chaos:$latest'
+	//implementation 'com.github.rhprincess.chaos:annotations:$latest'
+	//annotationProcessor 'com.github.rhprincess.chaos:processor:$latest'
 }
 ```
