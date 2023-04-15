@@ -1,5 +1,6 @@
 package io.rhprincess.chaos.factory
 
+import android.annotation.SuppressLint
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
@@ -14,6 +15,7 @@ import io.rhprincess.chaos.main.ChaosException
 class ChaosProvider : ContentProvider() {
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
         private var isInitialized = false
         val idMap = HashMap<String, Int>()

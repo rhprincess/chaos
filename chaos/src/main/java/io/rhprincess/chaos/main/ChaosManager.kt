@@ -10,7 +10,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.view.*
 import android.view.Window.ID_ANDROID_CONTENT
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
@@ -117,12 +119,12 @@ inline fun <reified T : ViewGroup> ViewManager.include(init: IncludeParams.() ->
     val wrapper = IncludeParams(this)
     wrapper.init()
     if (wrapper.view == null) throw ChaosException.IncludeParamsFailure("The attribute \"layout\" not defined")
-    LayoutParamsTool.lparams(
-        T::class.java,
-        wrapper.view!!,
-        wrapper
-    )
+    this.addView(wrapper.view, wrapper.view!!.layoutParams ?: ViewGroup.LayoutParams(-2, -2))
     return wrapper.view!!
+}
+
+fun <T : ViewGroup.LayoutParams> ViewManager.include(view: View, params: T) {
+    this.addView(view, params)
 }
 
 // TODO: View Size Tools (Definition Started)
@@ -136,7 +138,7 @@ open class Box(
 open class Size(var width: Int = -2, var height: Int = -2)
 
 @Suppress("PropertyName")
-open class IncludeParams(private val manager: ViewManager) : LParams() {
+open class IncludeParams(private val manager: ViewManager) {
 
     var view: View? = null
     val MATCH_PARENT: Int = -1
@@ -147,7 +149,7 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
         set(value) = padding(value)
 
     /**
-     * 引入布局文件的Resourse ID
+     * 引入布局文件的Resource ID
      */
     @LayoutRes
     var layout: Int = 0
@@ -239,223 +241,6 @@ open class IncludeParams(private val manager: ViewManager) : LParams() {
     }
 }
 
-// TODO: Simple Layout Params
-open class LParams(
-    var width: Int = -2,
-    var height: Int = -2,
-    var layoutGravity: Int = Gravity.NO_GRAVITY,
-    var layoutWeight: Float = 0f
-) {
-    private val lrule = RelativeLayout.LayoutParams(width, height)
-
-    var centerInParent: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.CENTER_IN_PARENT)
-            else lrule.removeRule(RelativeLayout.CENTER_IN_PARENT)
-        }
-
-    var centerVertical: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.CENTER_VERTICAL)
-            else lrule.removeRule(RelativeLayout.CENTER_VERTICAL)
-        }
-
-    var centerHorizontal: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.CENTER_HORIZONTAL)
-            else lrule.removeRule(RelativeLayout.CENTER_HORIZONTAL)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignParentStart"))
-    var alignParentLeft: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignParentEnd"))
-    var alignParentRight: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-        }
-
-    var alignParentTop: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_TOP)
-        }
-
-    var alignParentBottom: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-        }
-
-    var alignParentStart: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_START)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_START)
-        }
-
-    var alignParentEnd: Boolean = false
-        set(value) {
-            field = value
-            if (value) lrule.addRule(RelativeLayout.ALIGN_PARENT_END)
-            else lrule.removeRule(RelativeLayout.ALIGN_PARENT_END)
-        }
-
-    var above: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ABOVE, value)
-        }
-
-    var below: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.BELOW, value)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("startOf"))
-    var leftOf: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.LEFT_OF, value)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("endOf"))
-    var rightOf: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.RIGHT_OF, value)
-        }
-
-    var alignBaseline: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_BASELINE, value)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignStart"))
-    var alignLeft: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_LEFT, value)
-        }
-
-    var alignTop: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_TOP, value)
-        }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignEnd"))
-    var alignRight: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_RIGHT, value)
-        }
-
-    var alignBottom: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_BOTTOM, value)
-        }
-
-    var startOf: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.START_OF, value)
-        }
-
-    var endOf: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.END_OF, value)
-        }
-
-    var alignStart: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_START, value)
-        }
-
-    var alignEnd: Int = 0
-        set(value) {
-            field = value
-            lrule.addRule(RelativeLayout.ALIGN_END, value)
-        }
-
-    fun above(subject: Int) {
-        lrule.addRule(RelativeLayout.ABOVE, subject)
-    }
-
-    fun below(subject: Int) {
-        lrule.addRule(RelativeLayout.BELOW, subject)
-    }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("startOf()"))
-    fun leftOf(subject: Int) {
-        lrule.addRule(RelativeLayout.LEFT_OF, subject)
-    }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("endOf()"))
-    fun rightOf(subject: Int) {
-        lrule.addRule(RelativeLayout.RIGHT_OF, subject)
-    }
-
-    fun alignBaseline(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_BASELINE, subject)
-    }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignStart()"))
-    fun alignLeft(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_LEFT, subject)
-    }
-
-    fun alignTop(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_TOP, subject)
-    }
-
-    @Deprecated("This attribute is not support rtl layout", ReplaceWith("alignRight()"))
-    fun alignRight(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_RIGHT, subject)
-    }
-
-    fun alignBottom(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_BOTTOM, subject)
-    }
-
-    fun startOf(subject: Int) {
-        lrule.addRule(RelativeLayout.START_OF, subject)
-    }
-
-    fun endOf(subject: Int) {
-        lrule.addRule(RelativeLayout.END_OF, subject)
-    }
-
-    fun alignStart(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_START, subject)
-    }
-
-    fun alignEnd(subject: Int) {
-        lrule.addRule(RelativeLayout.ALIGN_END, subject)
-    }
-
-    fun constraintWithRules(view: View) {
-        view.layoutParams = lrule
-    }
-}
-
 class Padding : Box()
 class Margin : Box()
 
@@ -523,142 +308,6 @@ fun View.margin(size: Int) {
             }
         }
     })
-}
-
-object LayoutParamsTool {
-    fun lparams(clazz: Class<*>, view: View, wrap: LParams) {
-        when (clazz.simpleName) {
-            "FrameLayout" -> {
-                val flp = FrameLayout.LayoutParams(wrap.width, wrap.height)
-                if (wrap.layoutGravity != Gravity.NO_GRAVITY) {
-                    flp.gravity = wrap.layoutGravity
-                }
-                if (wrap.layoutWeight != 0f) throw ChaosException.UnsupportedAttribute(
-                    "layoutWeight",
-                    FrameLayout::class.java
-                )
-                view.layoutParams = flp
-            }
-            "RelativeLayout" -> {
-                view.layoutParams =
-                    RelativeLayout.LayoutParams(wrap.width, wrap.height)
-                if (wrap.layoutGravity != Gravity.NO_GRAVITY) throw ChaosException.UnsupportedAttribute(
-                    "layoutGravity",
-                    RelativeLayout::class.java
-                )
-                if (wrap.layoutWeight != 0f) throw ChaosException.UnsupportedAttribute(
-                    "layoutWeight",
-                    RelativeLayout::class.java
-                )
-                wrap.constraintWithRules(view)
-            }
-            "LinearLayout" -> {
-                val llp = LinearLayout.LayoutParams(wrap.width, wrap.height)
-                if (wrap.layoutWeight != 0f) {
-                    if (wrap.width == 0 && wrap.height != 0) {
-                        llp.weight = wrap.layoutWeight
-                    } else if (wrap.height == 0 && wrap.width != 0) {
-                        llp.weight = wrap.layoutWeight
-                    } else throw ChaosException.LinearLayoutWeightFailure("You must set this view's width/height to zero before using layoutWeight attribute.")
-                }
-                if (wrap.layoutGravity != Gravity.NO_GRAVITY) {
-                    llp.gravity = wrap.layoutGravity
-                }
-                view.layoutParams = llp
-            }
-            else -> {
-                view.layoutParams = ViewGroup.LayoutParams(wrap.width, wrap.height)
-                if (view is ViewGroup) {
-                    val clz = if (view.parent != null) view.parent.javaClass else this.javaClass
-                    if (wrap.layoutGravity != Gravity.NO_GRAVITY) throw ChaosException.UnsupportedAttribute(
-                        "layoutGravity",
-                        clz
-                    )
-                    if (wrap.layoutWeight != 0f) throw ChaosException.UnsupportedAttribute(
-                        "layoutWeight",
-                        clz
-                    )
-                }
-            }
-        }
-    }
-}
-
-/**
- * 设置控件的LayoutParams，T为父控件类型
- *
- * lparams<LinearLayout> {
- *      width = xxx
- *      height = xxx
- *      layoutGravity = Gravity.NO_GRAVITY
- *      layoutWeight = 0f
- * }
- *
- *
- * lparams<FrameLayout> {
- *      width = xxx
- *      height = xxx
- *      layoutGravity = Gravity.NO_GRAVITY
- * }
- *
- *
- * lparams<RelativeLayout> {
- *      width = xxx
- *      height = xxx
- *      centerInParent = true
- *      alignParentBottom = true
- *      above = xxx
- *      below = xxx
- * }
- */
-inline fun <reified T : ViewGroup> View.lparams(init: LParams.() -> Unit) {
-    val wrap = LParams()
-    wrap.init()
-    LayoutParamsTool.lparams(
-        T::class.java,
-        this,
-        wrap
-    )
-}
-
-/**
- * 该方法仅支持设置width和height
- *
- * lparams {
- *      width = xxx
- *      height = xxx
- * }
- *
- * @see size
- */
-fun View.lparams(init: Size.() -> Unit): ViewGroup.LayoutParams {
-    val wrap = Size()
-    wrap.init()
-    this.layoutParams = ViewGroup.LayoutParams(wrap.width, wrap.height)
-    return this.layoutParams
-}
-
-/**
- * 该方法仅支持设置width和height
- *
- * size {
- *      width = xxx
- *      height = xxx
- * }
- *
- * @see lparams
- */
-fun View.size(init: Size.() -> Unit) {
-    val wrap = Size()
-    wrap.init()
-    when (this.parent) {
-        is FrameLayout -> this.layoutParams = FrameLayout.LayoutParams(wrap.width, wrap.height)
-        is RelativeLayout -> this.layoutParams =
-            RelativeLayout.LayoutParams(wrap.width, wrap.height)
-        is LinearLayout -> this.layoutParams =
-            LinearLayout.LayoutParams(wrap.width, wrap.height)
-        else -> this.layoutParams = ViewGroup.LayoutParams(wrap.width, wrap.height)
-    }
 }
 
 /**
@@ -824,13 +473,13 @@ class ChaosManager(
 
     companion object {
 
-        inline fun <reified T : View> link(
+        inline fun <reified T : View> init(
             ctx: Context,
             @StyleRes theme: Int = 0,
             @LayoutRes styledLayout: Int = 0,
             initial: T.() -> Unit,
             initialView: (wrappedContext: Context) -> T? = { null }
-        ): Linker<T> {
+        ): T {
             val themeContext = if (theme != 0) ContextThemeWrapper(ctx, theme) else ctx
             val instance = if (styledLayout == 0) {
                 initialView(themeContext)!!
@@ -841,8 +490,16 @@ class ChaosManager(
             if (instance.layoutParams == null) {
                 instance.layoutParams = ViewGroup.LayoutParams(-2, -2)
             }
-            return Linker(instance)
+            return instance
         }
+
+        inline fun <reified T : View> link(
+            ctx: Context,
+            @StyleRes theme: Int = 0,
+            @LayoutRes styledLayout: Int = 0,
+            initial: T.() -> Unit,
+            initialView: (wrappedContext: Context) -> T? = { null }
+        ): Linker<T> = Linker(init(ctx, theme, styledLayout, initial, initialView))
 
         // Linking Factory
         class Linker<T : View>(private val view: T) {

@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
 import io.rhprincess.chaos.main.ChaosException
-import java.lang.reflect.Constructor
+import io.rhprincess.chaos.main.ChaosManager
 
 /**
  *
@@ -43,8 +44,7 @@ class LazyViewInjector {
         if (isInjected) throw RuntimeException("Stub! Lazy init block cannot be injected twice.")
         if (factory != null) {
             factory!!.fetch().forEach {
-                val view = it.initialize(targetParent.context)
-                targetParent.addView(view, replacePosition)
+                targetParent.addView(it, replacePosition)
                 replacePosition++
             }
             factory!!.lazyViews.clear()
@@ -58,8 +58,8 @@ class LazyViewInjector {
     }
 }
 
-class LazyViewFactory {
-    val lazyViews = ArrayList<LazyBlock<*>>()
+class LazyViewFactory(val context: Context) {
+    val lazyViews = ArrayList<View>()
     var id: String = ""
 
     companion object {
@@ -73,36 +73,25 @@ class LazyViewFactory {
         }
     }
 
-    class LazyBlock<T : View>(
-        private val constructor: Constructor<T>,
-        private val initial: T.() -> Unit
-    ) {
-        fun initialize(context: Context): View {
-            constructor.isAccessible = true
-            val instance = constructor.newInstance(context)
-            instance.initial()
-            return instance
-        }
+    inline fun <reified T : View> add(
+        @StyleRes theme: Int = 0,
+        @LayoutRes styledLayout: Int = 0,
+        noinline initial: T.() -> Unit,
+        initialView: (wrappedContext: Context) -> T? = { null }
+    ): T {
+        val view = ChaosManager.init(context, theme, styledLayout, initial, initialView)
+        lazyViews.add(view)
+        return view
     }
 
-    inline fun <reified T : View> add(noinline init: T.() -> Unit) {
-        val constructor = T::class.java.getDeclaredConstructor(Context::class.java)
-        lazyViews.add(LazyBlock(constructor, init))
-    }
-
-    inline fun <reified T : View> widget(noinline init: T.() -> Unit) {
-        val constructor = T::class.java.getDeclaredConstructor(Context::class.java)
-        lazyViews.add(LazyBlock(constructor, init))
-    }
-
-    fun fetch(): ArrayList<LazyBlock<*>> = lazyViews
+    fun fetch(): ArrayList<View> = lazyViews
 }
 
 /**
  * 用该方法可以声明懒加载布局，使用该方法并不会造成嵌套，而是会注入到指定的位置
  */
 fun ViewGroup.lazyInject(init: LazyViewFactory.() -> Unit): LazyViewInjector {
-    val factory = LazyViewFactory()
+    val factory = LazyViewFactory(context)
     factory.init()
     val injector = LazyViewInjector(this, factory)
     if (factory.id.isNotEmpty()) LazyViewFactory.put(factory.id, injector)

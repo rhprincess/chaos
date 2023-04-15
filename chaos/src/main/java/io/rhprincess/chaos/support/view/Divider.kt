@@ -3,8 +3,6 @@ package io.rhprincess.chaos.support.view
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewManager
-import io.rhprincess.chaos.main.LParams
-import io.rhprincess.chaos.main.LayoutParamsTool
 import io.rhprincess.chaos.main.dp
 import io.rhprincess.chaos.main.internalContext
 
@@ -17,15 +15,12 @@ fun ViewManager.divider(
     topMargin: Int = 0,
     rightMargin: Int = 0,
     bottomMargin: Int = 0,
-    color: Int = 0x20000000,
-    lparams: LParams.() -> Unit = {}
+    color: Int = 0x20000000
 ) {
     val dividerView = View(internalContext)
+    dividerView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
     dividerView.setBackgroundColor(color)
     dividerView.alpha = alpha
-    val params = LParams(width = -1, height = height)
-    params.lparams()
-    LayoutParamsTool.lparams(View::class.java, dividerView, params)
     val marginLps = ViewGroup.MarginLayoutParams(dividerView.layoutParams)
     marginLps.leftMargin = leftMargin
     marginLps.topMargin = topMargin

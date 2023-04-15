@@ -103,7 +103,11 @@ fun ViewManager.gridLayout(
  */
 
 // TODO: LinearLayout
-fun LazyViewFactory.linearLayout(init: LinearLayout.() -> Unit) = this.add(init)
+fun LazyViewFactory.linearLayout(
+    @StyleRes theme: Int = 0,
+    @LayoutRes styledLayout: Int = 0,
+    init: LinearLayout.() -> Unit
+) = add(theme, styledLayout, init) { LinearLayout(it) }
 
 fun LazyViewFactory.verticalLayout() {
     throw UnsupportedOperationException()
@@ -114,16 +118,35 @@ fun LazyViewFactory.horizontalLayout() {
 }
 
 // TODO: RelativeLayout
-fun LazyViewFactory.relativeLayout(init: RelativeLayout.() -> Unit) = this.add(init)
+fun LazyViewFactory.relativeLayout(
+    @StyleRes theme: Int = 0,
+    @LayoutRes styledLayout: Int = 0,
+    init: RelativeLayout.() -> Unit
+) = add(theme, styledLayout, init) { RelativeLayout(it) }
 
 // TODO: FrameLayout
-fun LazyViewFactory.frameLayout(init: FrameLayout.() -> Unit) = this.add(init)
+fun LazyViewFactory.frameLayout(
+    @StyleRes theme: Int = 0,
+    @LayoutRes styledLayout: Int = 0,
+    init: FrameLayout.() -> Unit
+) =
+    add(theme, styledLayout, init) { FrameLayout(it) }
 
 // TODO: TableLayout
-fun LazyViewFactory.tableLayout(init: TableLayout.() -> Unit) = this.add(init)
+fun LazyViewFactory.tableLayout(
+    @StyleRes theme: Int = 0,
+    @LayoutRes styledLayout: Int = 0,
+    init: TableLayout.() -> Unit
+) =
+    add(theme, styledLayout, init) { TableLayout(it) }
 
 // TODO: GridLayout
-fun LazyViewFactory.gridLayout(init: GridLayout.() -> Unit) = this.add(init)
+fun LazyViewFactory.gridLayout(
+    @StyleRes theme: Int = 0,
+    @LayoutRes styledLayout: Int = 0,
+    init: GridLayout.() -> Unit
+) =
+    add(theme, styledLayout, init) { GridLayout(it) }
 
 
 /**

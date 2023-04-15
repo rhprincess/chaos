@@ -76,7 +76,7 @@ class SyncBlock<Result>(private val task: SyncTask<Result>) {
     fun into(ui: Activity, otherBlock: (result: Result) -> Unit): SyncBlock<Result> {
         task.into(ui, otherBlock)
         thread = task.withResult()
-        thread!!.run()
+        thread!!.start()
         return this
     }
 
@@ -85,7 +85,7 @@ class SyncBlock<Result>(private val task: SyncTask<Result>) {
         if (thread != null) throw SyncTaskException.ExistsThreadRunning()
         task.into(otherBlock)
         thread = task.withResult()
-        thread!!.run()
+        thread!!.start()
         return this
     }
 
@@ -94,7 +94,7 @@ class SyncBlock<Result>(private val task: SyncTask<Result>) {
         if (thread != null) throw SyncTaskException.ExistsThreadRunning()
         task.into(ui, otherBlock)
         thread = task.withResult()
-        thread!!.run()
+        thread!!.start()
         return this
     }
 

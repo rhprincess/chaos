@@ -8,7 +8,7 @@ import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
-import io.rhprincess.chaos.lazy.LazyViewFactory
+import io.rhprincess.chaos.annotations.LazyInject
 import io.rhprincess.chaos.main.ChaosManager
 import io.rhprincess.chaos.main.internalContext
 
@@ -23,6 +23,7 @@ import io.rhprincess.chaos.main.internalContext
  *  Another simple usage for button
  *  button("Simple Button")
  */
+@LazyInject("android.widget")
 fun ViewManager.button(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -35,6 +36,7 @@ fun ViewManager.button(
 }
 
 // TODO: CheckBox
+@LazyInject("android.widget")
 fun ViewManager.checkBox(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -47,6 +49,7 @@ fun ViewManager.checkBox(
 }
 
 // TODO: EditText
+@LazyInject("android.widget")
 fun ViewManager.editText(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -58,6 +61,7 @@ fun ViewManager.editText(
 }
 
 // TODO: TextView
+@LazyInject("android.widget")
 fun ViewManager.textView(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -69,6 +73,7 @@ fun ViewManager.textView(
 }
 
 // TODO: Switch
+@LazyInject("android.widget")
 fun ViewManager.switch(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -79,6 +84,7 @@ fun ViewManager.switch(
 }
 
 // TODO: ImageButton
+@LazyInject("android.widget")
 fun ViewManager.imageButton(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -91,6 +97,7 @@ fun ViewManager.imageButton(
 }
 
 // TODO: RadioGroup
+@LazyInject("android.widget")
 fun ViewManager.radioGroup(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -103,6 +110,7 @@ fun ViewManager.radioGroup(
 }
 
 // TODO: RadioButton
+@LazyInject("android.widget")
 fun ViewManager.radioButton(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -114,6 +122,7 @@ fun ViewManager.radioButton(
 }
 
 // TODO: ToggleButton
+@LazyInject("android.widget")
 fun ViewManager.toggleButton(
     text: CharSequence = "",
     @StyleRes theme: Int = 0,
@@ -125,6 +134,7 @@ fun ViewManager.toggleButton(
 }
 
 // TODO: View
+@LazyInject("android.view")
 fun ViewManager.view(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -134,6 +144,7 @@ fun ViewManager.view(
 }
 
 // TODO: ImageView
+@LazyInject("android.widget")
 fun ViewManager.imageView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -144,6 +155,7 @@ fun ViewManager.imageView(
 }
 
 // TODO: WebView
+@LazyInject("android.webkit")
 fun ViewManager.webView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -154,6 +166,7 @@ fun ViewManager.webView(
 }
 
 // TODO: VideoView
+@LazyInject("android.widget")
 fun ViewManager.videoView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -164,6 +177,7 @@ fun ViewManager.videoView(
 }
 
 // TODO: CalendarView
+@LazyInject("android.widget")
 fun ViewManager.calendarView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -174,6 +188,7 @@ fun ViewManager.calendarView(
 }
 
 // TODO: ProgressBar
+@LazyInject("android.widget")
 fun ViewManager.progressBar(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -184,6 +199,7 @@ fun ViewManager.progressBar(
 }
 
 // TODO: SeekBar
+@LazyInject("android.widget")
 fun ViewManager.seekBar(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -194,6 +210,7 @@ fun ViewManager.seekBar(
 }
 
 // TODO: RatingBar
+@LazyInject("android.widget")
 fun ViewManager.ratingBar(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -204,6 +221,7 @@ fun ViewManager.ratingBar(
 }
 
 // TODO: SearchView
+@LazyInject("android.widget")
 fun ViewManager.searchView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -214,6 +232,7 @@ fun ViewManager.searchView(
 }
 
 // TODO: Spinner
+@LazyInject("android.widget")
 fun ViewManager.spinner(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -224,6 +243,7 @@ fun ViewManager.spinner(
 }
 
 // TODO: ScrollView
+@LazyInject("android.widget")
 fun ViewManager.scrollView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -234,6 +254,7 @@ fun ViewManager.scrollView(
 }
 
 // TODO: HorizontalScrollView
+@LazyInject("android.widget")
 fun ViewManager.horizontalScrollView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -248,6 +269,7 @@ fun ViewManager.horizontalScrollView(
 }
 
 // TODO: Toolbar
+@LazyInject("android.widget")
 fun ViewManager.toolbar(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -258,6 +280,7 @@ fun ViewManager.toolbar(
 }
 
 // TODO: ListView
+@LazyInject("android.widget")
 fun ViewManager.listView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -268,6 +291,7 @@ fun ViewManager.listView(
 }
 
 // TODO: GridView
+@LazyInject("android.widget")
 fun ViewManager.gridView(
     @StyleRes theme: Int = 0,
     @LayoutRes styledLayout: Int = 0,
@@ -276,100 +300,3 @@ fun ViewManager.gridView(
     return ChaosManager.link(internalContext, theme, styledLayout, init) { GridView(it) }
         .into(this)
 }
-
-/**
- *
- *               TODO: For LazyViewFactory (Lazy Injection)
- *
- */
-
-// TODO: Button
-fun LazyViewFactory.button(
-    text: CharSequence = "",
-    init: Button.() -> Unit = { this.text = text }
-) = this.add(init)
-
-// TODO: CheckBox
-fun LazyViewFactory.checkBox(
-    text: CharSequence = "",
-    init: CheckBox.() -> Unit = { this.text = text }
-) =
-    this.add(init)
-
-// TODO: EditText
-fun LazyViewFactory.editText(init: EditText.() -> Unit) = this.add(init)
-
-// TODO: TextView
-fun LazyViewFactory.textView(
-    text: CharSequence = "",
-    init: TextView.() -> Unit = { this.text = text }
-) = this.add(init)
-
-// TODO: Switch
-fun LazyViewFactory.switch(
-    text: CharSequence = "",
-    init: Switch.() -> Unit = { this.text = text }
-) = this.add(init)
-
-// TODO: ImageButton
-fun LazyViewFactory.imageButton(init: ImageButton.() -> Unit) = this.add(init)
-
-// TODO: RadioGroup
-fun LazyViewFactory.radioGroup(init: RadioGroup.() -> Unit) = this.add(init)
-
-// TODO: RadioButton
-fun LazyViewFactory.radioButton(
-    text: CharSequence = "",
-    init: RadioButton.() -> Unit = { this.text = text }
-) = this.add(init)
-
-// TODO: ToggleButton
-fun LazyViewFactory.toggleButton(
-    text: CharSequence = "",
-    init: ToggleButton.() -> Unit = { this.text = text }
-) = this.add(init)
-
-// TODO: View
-fun LazyViewFactory.view(init: View.() -> Unit) = this.add(init)
-
-// TODO: ImageView
-fun LazyViewFactory.imageView(init: ImageView.() -> Unit) = this.add(init)
-
-// TODO: WebView
-fun LazyViewFactory.webView(init: WebView.() -> Unit) = this.add(init)
-
-// TODO: VideoView
-fun LazyViewFactory.videoView(init: VideoView.() -> Unit) = this.add(init)
-
-// TODO: CalendarView
-fun LazyViewFactory.calendarView(init: CalendarView.() -> Unit) = this.add(init)
-
-// TODO: ProgressBar
-fun LazyViewFactory.progressBar(init: ProgressBar.() -> Unit) = this.add(init)
-
-// TODO: SeekBar
-fun LazyViewFactory.seekBar(init: SeekBar.() -> Unit) = this.add(init)
-
-// TODO: RatingBar
-fun LazyViewFactory.ratingBar(init: RatingBar.() -> Unit) = this.add(init)
-
-// TODO: SearchView
-fun LazyViewFactory.searchView(init: SearchView.() -> Unit) = this.add(init)
-
-// TODO: Spinner
-fun LazyViewFactory.spinner(init: Spinner.() -> Unit) = this.add(init)
-
-// TODO: ScrollView
-fun LazyViewFactory.scrollView(init: ScrollView.() -> Unit) = this.add(init)
-
-// TODO: HorizontalScrollView
-fun LazyViewFactory.horizontalScrollView(init: HorizontalScrollView.() -> Unit) = this.add(init)
-
-// TODO: Toolbar
-fun LazyViewFactory.toolbar(init: Toolbar.() -> Unit) = this.add(init)
-
-// TODO: ListView
-fun LazyViewFactory.listView(init: ListView.() -> Unit) = this.add(init)
-
-// TODO: GridView
-fun LazyViewFactory.gridView(init: GridView.() -> Unit) = this.add(init)

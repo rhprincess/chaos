@@ -34,7 +34,7 @@ class LifecycleTask {
                 }
             }
 
-            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
                 busHolder.activitySaveInstanceState.forEach { event: (activity: Activity, outState: Bundle?) -> Unit ->
                     record(activity, outState, event)
                 }
@@ -201,6 +201,7 @@ class LifecycleTask {
 class LifecycleProxy {
 
     var id: Any = ""
+        @RequiresApi(Build.VERSION_CODES.Q)
         set(value) {
             field = value
             task ?: throw LifecycleTaskException.NoDefinedTaskFound()
@@ -225,6 +226,7 @@ class LifecycleProxy {
         isStateful = true
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atStarted(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "start"
@@ -232,6 +234,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atCreated(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "created"
@@ -239,6 +242,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atResumed(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "resumed"
@@ -246,6 +250,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atPaused(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "paused"
@@ -253,6 +258,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atDestroyed(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "destroyed"
@@ -260,6 +266,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atStopped(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "stopped"
@@ -267,6 +274,7 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun atSaveInstanceState(task: LifecycleTask): LifecycleProxy {
         this.task = task
         taskName = "sis"
@@ -274,11 +282,13 @@ class LifecycleProxy {
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun setId(id: Any): LifecycleProxy {
         this.id = id
         return this
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun limitTimes(time: Int) {
         task ?: throw LifecycleTaskException.NoDefinedTaskFound()
         if (isStateful) {
@@ -288,6 +298,7 @@ class LifecycleProxy {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun putId(id: Any) {
         when (taskName) {
             "start" -> task!!.busMapper.activityStarted[id] =

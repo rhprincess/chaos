@@ -1,8 +1,10 @@
 package io.rhprincess.chaos.styling
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.widget.TextView
 
+@SuppressLint("StaticFieldLeak")
 object Typography {
 
     object Headline1 : IStyle({
